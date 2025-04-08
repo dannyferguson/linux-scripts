@@ -29,3 +29,20 @@ I then just hit "Add Repository" and copy the repository URL for use in this scr
 ![borg-5.png](../../../_images/borg-5.png)
 
 The final step is to generate a secure password (I just use 1password) to use as the encryption passphrase. Save this somewhere as you will need it to decrypt the backups and for the script to setup the backups.
+
+# Running the script
+
+1. Edit the script to add your repository URL and encryption passphrase
+2. Make the script executable by running `chmod +x borgmatic-install.sh`
+3. Run the script using `./borgmatic-install.sh`
+
+Once the installation is complete, you should run `borgmatic create --verbosity 2` to run the first backup manually and confirm its all good.
+
+Once you confirm everything is good, you should automate it using cron. I typically edit cron using `crontab -e` and then use the following config
+```text
+# Run a backup every 6 hours and log output to /var/log/borgmatic.log
+0 */6 * * * borgmatic create >> /var/log/borgmatic.log 2>&1
+
+# Run a consistency check every Monday at 1:00 AM and log output to /var/log/borgmatic.log
+0 1 * * 1 borgmatic check >> /var/log/borgmatic.log 2>&1
+```

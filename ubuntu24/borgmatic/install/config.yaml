@@ -34,7 +34,7 @@ retries: 3
 # Time to wait between retries (in seconds) just for anything to fix itself
 retry_wait: 30
 
-archive_name_format: '{hostname}-backup-{now}'
+archive_name_format: '{hostname}-backup-{now:%Y_%m_%d-%Hh%Mm}'
 
 # Backup retention. Keeps X per time unit.
 keep_daily: 7
