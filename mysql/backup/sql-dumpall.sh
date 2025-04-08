@@ -25,7 +25,7 @@ log() {
 cd "$BACKUP_DIR" || exit 1
 rm -rf "$BACKUP_DIR"/*.gz
 
-log "-- START --"
+log "Backing up all databases.."
 
 HEAD=$(mktemp)
 TAIL=$(mktemp)
@@ -44,21 +44,21 @@ EOF
 
 dump_database() {
   local db="$1"
-  log "-- Dumping $db ..."
+  log "Dumping $db ..."
   if mysqldump --single-transaction --skip-lock-tables -u "$MYSQL_USER" "$db" | cat "$HEAD" - "$TAIL" | gzip -fc > "$BACKUP_DIR/$db.sql.gz"; then
-    log "-- Done dumping $db"
+    log "Done dumping $db"
   else
     log "!! Failed to dump $db"
   fi
 }
 
 if [ -z "${1:-}" ]; then
-  log "-- Dumping all databases ..."
+  log "Dumping all databases ..."
   mapfile -t DBS < <(mysql -u "$MYSQL_USER" -e 'SHOW DATABASES' -s --skip-column-names)
   for DB in "${DBS[@]}"; do
     case "$DB" in
       information_schema|mysql|sys|phpmyadmin|performance_schema)
-        log "-- Skipping $DB ..."
+        log "Skipping $DB ..."
         continue
         ;;
       *)
@@ -72,4 +72,4 @@ fi
 
 rm -f "$HEAD" "$TAIL"
 
-log "-- All databases dumped successfully --"
+log "All databases dumped successfully!"

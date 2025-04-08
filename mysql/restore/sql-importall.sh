@@ -24,25 +24,25 @@ log() {
 
 cd "$BACKUP_DIR" || exit 1
 
-log "-- Restoring all databases --"
+log "Restoring all databases.."
 
 # Decompress .sql.gz files (keep original)
 if compgen -G "*.sql.gz" > /dev/null; then
-  log "-- Decompressing .sql.gz files ..."
+  log "Decompressing .sql.gz files ..."
   gunzip -fk *.sql.gz
 fi
 
 # Restore each .sql file
 for f in *.sql; do
   DBNAME="${f%.sql}"
-  log "-- Dropping database $DBNAME if it exists ..."
+  log "Dropping database $DBNAME if it exists ..."
   mysql -u "$MYSQL_USER" -e "DROP DATABASE IF EXISTS \`$DBNAME\`;"
 
-  log "-- Creating database $DBNAME ..."
+  log "Creating database $DBNAME ..."
   mysql -u "$MYSQL_USER" -e "CREATE DATABASE \`$DBNAME\`;"
 
-  log "-- Importing $f into $DBNAME ..."
+  log "Importing $f into $DBNAME ..."
   mysql -u "$MYSQL_USER" "$DBNAME" < "$f"
 done
 
-log "-- All databases restored successfully --"
+log "All databases restored successfully!"
