@@ -39,6 +39,13 @@ log "Replacing default config with my included template"
 rm /etc/borgmatic/config.yaml
 curl -fsSL https://raw.githubusercontent.com/dannyferguson/linux-scripts/refs/heads/master/ubuntu24/borgmatic/install/config.yaml -o /etc/borgmatic/config.yaml
 
+# Replace placeholders in borgmatic config with actual values
+log "Replacing placeholders in borgmatic config"
+sed -i \
+  -e "s|CHANGEME_REPO|$REPO_URL|g" \
+  -e "s|CHANGEME_PASS|$ENCRYPTION_PASSPHRASE|g" \
+  /etc/borgmatic/config.yaml
+
 # Init repository
 export BORG_PASSPHRASE="$ENCRYPTION_PASSPHRASE"
 log "Initializing borg repository at $REPO_URL if not already initialized"
@@ -54,11 +61,17 @@ log "Validating Borgmatic config"
 borgmatic config validate
 
 # Exporting key
-SAFE_KEY_FILE="$(echo "$REPO_URL" | tr '/:@' '___').txt"
+SAFE_KEY_FILE="$(echo "$REPO_URL" | tr -d '/:@').txt"
 log "Exporting key to $SAFE_KEY_FILE"
 borg key export "$REPO_URL" "$SAFE_KEY_FILE"
 
 # Done
-log "Borgmatic setup complete. Next steps are to run \"borgmatic create --verbosity 2\" to run the first backup manually and make sure everything is good and then to add cronjobs to automate it (see repo README)
+log "
 
-Note: download \"$SAFE_KEY_FILE\", save it somewhere and delete it from the server. This can act as a backup of your encryption key."
+  Borgmatic setup complete!
+
+  Next steps are to run \"borgmatic create --verbosity 2\" to run the first backup manually and make sure everything is good and then to add cronjobs to automate it (see repo README)
+
+  Note: download \"$SAFE_KEY_FILE\", save it somewhere and delete it from the server. This can act as a backup of your encryption key.
+
+"

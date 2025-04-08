@@ -6,8 +6,6 @@ repositories:
     label: borgbase
 
 exclude_patterns:
-  - '*/plugins/CoreProtect/database.db'
-  - '*/config/prism/*'
   - /dev
   - /proc
   - /sys
