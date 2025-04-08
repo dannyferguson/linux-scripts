@@ -1,0 +1,62 @@
+source_directories:
+  - /
+
+repositories:
+  - path: CHANGEME_REPO
+    label: borgbase
+
+exclude_patterns:
+  - '*/plugins/CoreProtect/database.db'
+  - '*/config/prism/*'
+  - /dev
+  - /proc
+  - /sys
+  - /tmp
+  - /run
+  - /mnt
+  - /media
+  - /lost+found
+  - /var/lib/mysql
+  - swapfile
+  - swap.img
+  
+# Excludes directories containing a .nobackup file
+exclude_if_present:
+  - .nobackup
+
+encryption_passphrase: "CHANGEME_PASS"
+
+compression: lz4
+
+# Limits upload to 100 mbit/s
+upload_rate_limit: 12207
+
+# Number of times to retry a failing backup before giving up.
+retries: 3
+# Time to wait between retries (in seconds) just for anything to fix itself
+retry_wait: 30
+
+archive_name_format: '{hostname}-backup-{now}'
+
+# Backup retention. Keeps X per time unit.
+keep_daily: 7
+keep_weekly: 4
+keep_monthly: 12
+keep_yearly: 2
+
+# Run shell commands before backups
+before_backup:
+  - echo "`date` - Starting backup"
+  #- cd /home/scripts/ && ./sql-dumpall.sh # You can uncomment this if you wanted to run a script for example to back up your MySQL databases before the backup happens.
+
+# Run shell commands after backups
+after_backup:
+  - echo "`date` - Finished backup"
+
+# Run shell commands before checks
+before_check:
+  - echo "`date` - Starting consistency check"
+
+# Run shell commands after checks
+after_check:
+  - echo "`date` - Finished consistency check"

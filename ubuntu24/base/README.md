@@ -6,5 +6,5 @@ This script handles a lot of the basics I like to do on nearly all my Ubuntu 24.
 
 You can execute it directly by running this, if you've inspected the script and trust it:
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/dannyferguson/linux-scripts/refs/heads/master/base/ubuntu24/base-install.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/dannyferguson/linux-scripts/refs/heads/master/ubuntu24/base/base-install.sh)
 ```
