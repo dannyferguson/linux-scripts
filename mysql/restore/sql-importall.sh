@@ -19,7 +19,7 @@ LOG_FILE="$BACKUP_DIR/mysql_restore.log"
 #
 #################################################
 log() {
-  echo "[$(date "+%Y-%m-%d %H:%M:%S")] RESTORE $1" | tee -a "$LOG_FILE"
+  echo "[$(date "+%Y-%m-%d %H:%M:%S")][sql-importall.sh]: $1" | tee -a "$LOG_FILE"
 }
 
 cd "$BACKUP_DIR" || exit 1
