@@ -36,13 +36,13 @@ fi
 for f in *.sql; do
   DBNAME="${f%.sql}"
   log "-- Dropping database $DBNAME if it exists ..."
-  mysql -u $MYSQL_USER -e "DROP DATABASE IF EXISTS \`$DBNAME\`;"
+  mysql -u "$MYSQL_USER" -e "DROP DATABASE IF EXISTS \`$DBNAME\`;"
 
   log "-- Creating database $DBNAME ..."
-  mysql -u $MYSQL_USER -e "CREATE DATABASE \`$DBNAME\`;"
+  mysql -u "$MYSQL_USER" -e "CREATE DATABASE \`$DBNAME\`;"
 
   log "-- Importing $f into $DBNAME ..."
-  mysql -u $MYSQL_USER "$DBNAME" < "$f"
+  mysql -u "$MYSQL_USER" "$DBNAME" < "$f"
 done
 
 log "-- All databases restored successfully --"
