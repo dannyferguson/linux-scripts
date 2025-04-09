@@ -6,17 +6,17 @@ repositories:
     label: borgbase
 
 exclude_patterns:
-  - /dev
-  - /proc
-  - /sys
-  - /tmp
-  - /run
-  - /mnt
-  - /media
-  - /lost+found
-  - /var/lib/mysql
-  - swapfile
-  - swap.img
+  - /dev  # Virtual devices
+  - /proc # Kernel + process info (pseudo-filesystem)
+  - /sys # Kernel + hardware info (pseudo-filesystem)
+  - /tmp # Temporary files (cleared on reboot)
+  - /run # Runtime data (sockets, PID files, etc.)
+  - /mnt # Mounted storage (you might want this backed up, I do not)
+  - /media # Mounted storage (you might want this backed up, I do not)
+  - /lost+found # Filesystem recovery data
+  - /var/lib/mysql # MySQL (you might want this backed up, I do but with mysqldump instead)
+  - swapfile # Content in swap, not recoverable
+  - swap.img # Content in swap, not recoverable
   
 # Excludes directories containing a .nobackup file
 exclude_if_present:
