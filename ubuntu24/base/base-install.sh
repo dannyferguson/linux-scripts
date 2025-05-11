@@ -7,7 +7,6 @@ set -euo pipefail
 #
 #################################################
 LOG_FILE="base-install.log"
-TIMEZONE="America/Montreal"
 SSH_CONFIG="/etc/ssh/sshd_config"
 #GITHUB_USERNAME="dannyferguson"  # Uncomment and set to enable adding your Github SSH key to root
 
@@ -21,9 +20,9 @@ log() {
   echo "[$(date "+%Y-%m-%d %H:%M:%S")][base-install.sh]: $1" | tee -a "$LOG_FILE"
 }
 
-# Set timezone
-log "Setting timezone to $TIMEZONE"
-timedatectl set-timezone "$TIMEZONE"
+# Set timezone to UTC
+log "Setting timezone to UTC"
+timedatectl set-timezone UTC
 
 # Add Github SSH key to root
 log "Adding Github SSH key to root if specified"
