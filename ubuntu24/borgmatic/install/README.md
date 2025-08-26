@@ -46,3 +46,24 @@ Once you confirm everything is good, you should automate it using cron. I typica
 # Run a consistency check every Monday at 1:00 AM and log output to /var/log/borgmatic.log
 0 1 * * 1 borgmatic check >> /var/log/borgmatic.log 2>&1
 ```
+
+# Retention
+
+The default retention with my config template and the above cronjobs is as follows:
+
+```text
+keep_hourly: 4
+keep_daily: 7
+keep_weekly: 4
+keep_monthly: 12
+keep_yearly: 1
+```
+
+This means:
+* Hourly: Keep the 4 most recent backups (note: “hourly” refers to the backup we run every 6 hours).
+* Daily: Keep the 7 most recent daily backups.
+* Weekly: Keep the 4 most recent weekly backups.
+* Monthly: Keep the 12 most recent monthly backups.
+* Yearly: Keep the single most recent yearly backup.
+
+**How retention works:** Borg doesn't pre-assign backups to categories. Instead, when pruning runs, it calculates which backups to keep by looking at all your backups and asking: "What's the most recent backup from each of the last 7 days? Last 4 weeks? Last 12 months?" The same backup can satisfy multiple rules (e.g., being both the newest daily and newest weekly backup). Any backups that don't meet a retention rule get deleted.
