@@ -6,7 +6,7 @@ set -euo pipefail
 #     Configuration (change these as needed)
 #
 #################################################
-LOG_FILE="borgmatic-extract.log"
+LOG_FILE="borgmatic-restore.log"
 
 #################################################
 #
